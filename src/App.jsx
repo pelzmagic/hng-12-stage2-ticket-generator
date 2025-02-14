@@ -13,7 +13,7 @@ function App() {
   const [option, setOption] = useState("");
   const [selectedType, setSelectedType] = useState("");
   return (
-    <div className="max-w-[1440px] mx-auto">
+    <div className="max-w-[375px] px-5 lg:max-w-[1440px] lg:mx-auto">
       <Router>
         <NavBar />
         <Routes>

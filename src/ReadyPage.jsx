@@ -6,7 +6,7 @@ export default function ReadyPage({ name, email, text, avartar, option, selected
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-[700px] mx-auto bg-cardColor mt-[46px] rounded-[40px] px-12 py-12 border border-red-500">
+    <div className="max-w-[700px] mx-auto bg-cardColor mt-[46px] rounded-[40px] px-12 py-12">
       <div className="flex justify-between items-center">
         <p className="font-jeju text-[32px] text-white">Ready!</p>
         <p className="font-roboto text-base leading-[150%] text-grey">Step 3/3</p>
@@ -14,7 +14,7 @@ export default function ReadyPage({ name, email, text, avartar, option, selected
       <hr className="border border-deepgreen mt-3" />
       <h1 className="font-alatsi text-[32px] text-white text-center mt-[27.5px]">Your Ticket is Booked!</h1>
       <p className="font-roboto text-base leading-[150%] text-grey text-center mt-4">Check your email for a copy or you can download</p>
-      <div className="border border-red-500 py-8 mt-8">
+      <div className="py-8 mt-8">
         <div className="bg-[url('./Subtract.png')] bg-no-repeat max-w-[300px] mx-auto px-5 pt-5 pb-[22px]">
           <div className="p-3.5 bg-frame rounded-2xl">
             <h1 className="font-rage text-[34px] text-white text-center">Techember Fest &quot;25</h1>

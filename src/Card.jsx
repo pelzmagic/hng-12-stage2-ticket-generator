@@ -21,7 +21,7 @@ export default function Card({ option, setOption, selectedType, setSelectedType 
   };
 
   return (
-    <div className="max-w-[700px] mx-auto bg-cardColor mt-[46px] rounded-[40px] px-12 py-12">
+    <div className="max-w-[700px] mx-auto bg-cardColor rounded-[40px] px-12 py-12 mt-[46px]">
       <Toaster position="top-right" reverseOrder={false} />
       <div className="flex justify-between items-center">
         <p className="font-jeju text-[32px] text-white">Ticket Selection</p>
