@@ -7,6 +7,7 @@ export default {
         jeju: ["JejuMyeongjo"],
         roboto: ["Roboto"],
         rage: ["Road Rage"],
+        alatsi: ["Alatsi"],
       },
       colors: {
         background: "#02191D",
@@ -21,6 +22,8 @@ export default {
         darkgreen: "#052228",
         deepergreen: "#07374F",
         black: "#0E464F",
+        frame: "#031E21",
+        table: "#08343C",
       },
     },
   },

@@ -1,14 +1,28 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TicketType from "./TicketType";
+import toast, { Toaster } from "react-hot-toast";
 import Button from "./Button";
 
-export default function Card() {
-  const [option, setOption] = useState(1);
+// eslint-disable-next-line react/prop-types
+export default function Card({ option, setOption, selectedType, setSelectedType }) {
   const navigate = useNavigate();
+
+  const handleNext = () => {
+    let hasError = false;
+    if (!selectedType) {
+      toast.error("Please select a ticket type before proceeding.");
+      hasError = true;
+    }
+    if (!option || option === "") {
+      toast.error("Please select the number of tickets before proceeding.");
+      hasError = true;
+    }
+    if (!hasError) navigate("/step-2");
+  };
 
   return (
     <div className="max-w-[700px] mx-auto bg-cardColor mt-[46px] rounded-[40px] px-12 py-12">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="flex justify-between items-center">
         <p className="font-jeju text-[32px] text-white">Ticket Selection</p>
         <p className="font-roboto text-base leading-[150%] text-grey">Step 1/3</p>
@@ -24,15 +38,16 @@ export default function Card() {
         <div>
           <p className="text-base text-grey leading-[150%] font-roboto">Select Ticket Type:</p>
           <div className="p-4 border border-deepgreen rounded-3xl flex justify-between mt-2">
-            <TicketType price="Free" type="REGULAR ACCESS" date="20/52" />
-            <TicketType price="$150" type="VIP ACCESS" date="20/52" />
-            <TicketType price="$150" type="VVIP ACCESS" date="20/52" />
+            <TicketType price="Free" type="REGULAR ACCESS" date="20/52" selectedType={selectedType} setSelectedType={setSelectedType} />
+            <TicketType price="$150" type="VIP ACCESS" date="20/52" selectedType={selectedType} setSelectedType={setSelectedType} />
+            <TicketType price="$150" type="VVIP ACCESS" date="20/52" selectedType={selectedType} setSelectedType={setSelectedType} />
           </div>
         </div>
         <div>
           <form>
             <label className="block text-base text-grey leading-[150%] font-roboto">Number of Tickets</label>
-            <select className="w-full mt-2 p-3  bg-deepergreen border border-deepgreen text-white rounded-xl outline-none" value={option} onChange={(e) => setOption(+e.target.value)}>
+            <select className="w-full mt-2 p-3  bg-deepergreen border border-deepgreen text-white rounded-xl outline-none" value={option} onChange={(e) => setOption(e.target.value)}>
+              <option value="">Select a ticket</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -41,7 +56,7 @@ export default function Card() {
         </div>
         <div className="flex justify-between">
           <Button className="w-[47%] text-button border border-deepgreen rounded-xl">Cancel</Button>
-          <Button className="w-[47%] text-white bg-button rounded-xl" onClick={() => navigate("/step-2")}>
+          <Button className="w-[47%] text-white bg-button rounded-xl" onClick={handleNext}>
             Next
           </Button>
         </div>
