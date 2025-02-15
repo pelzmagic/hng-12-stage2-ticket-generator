@@ -1,9 +1,46 @@
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { useState, useEffect } from "react";
 // eslint-disable-next-line react/prop-types
 export default function ReadyPage({ name, email, text, avartar, option, selectedType }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (avartar) {
+      const img = new Image();
+      img.src = avartar;
+      img.crossOrigin = "anonymous";
+      img.onload = () => setImageLoaded(true);
+    }
+  }, [avartar]);
+
   const navigate = useNavigate();
+
+  const handleDownload = async () => {
+    if (!imageLoaded) {
+      alert("Avatar is still loading. Please wait.");
+      return;
+    }
+
+    const ticketElement = document.getElementById("ticket");
+
+    if (!ticketElement) return;
+
+    const canvas = await html2canvas(ticketElement, {
+      useCORS: true,
+      allowTaint: true,
+    });
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4");
+    const imgWidth = 150;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 30, 10, imgWidth, imgHeight);
+    pdf.save("Techember_Ticket.pdf");
+  };
 
   return (
     <div className="max-w-[700px] mx-auto bg-cardColor mt-[46px] rounded-[40px] px-12 py-12">
@@ -15,14 +52,14 @@ export default function ReadyPage({ name, email, text, avartar, option, selected
       <h1 className="font-alatsi text-[32px] text-white text-center mt-[27.5px]">Your Ticket is Booked!</h1>
       <p className="font-roboto text-base leading-[150%] text-grey text-center mt-4">Check your email for a copy or you can download</p>
       <div className="py-8 mt-8">
-        <div className="bg-[url('/Subtract.png')] bg-no-repeat max-w-[300px] mx-auto px-5 pt-5 pb-[22px]">
+        <div id="ticket" className="bg-[url('/Subtract.png')] bg-no-repeat max-w-[300px] mx-auto px-5 pt-5 pb-[22px]">
           <div className="p-3.5 bg-frame rounded-2xl">
             <h1 className="font-rage text-[34px] text-white text-center">Techember Fest &quot;25</h1>
             <p className="font-roboto text-[10px] leading-[150%] text-white text-center">📍 04 Rumens road, Ikoyi, Lagos</p>
             <p className="font-roboto text-[10px] leading-[150%] text-white text-center">📆March 15, 2025|7:00PM</p>
             <div className="w-[140px] h-[140px] border-4 border-button rounded-xl mt-5 mx-auto">
               {" "}
-              {avartar ? <img src={avartar} alt="Avatar" className="w-full h-full object-cover rounded-xl" /> : <span className="text-grey">No image</span>}
+              {avartar ? <img src={avartar} alt="Avatar" className="w-full h-full object-cover rounded-xl" crossOrigin="anonymous" /> : <span className="text-grey">No image</span>}
             </div>
             <div className="border border-table grid grid-rows-3 grid-cols-2 rounded-lg mt-5">
               <div className="border border-table p-1 max-h-[45px]">
@@ -56,7 +93,9 @@ export default function ReadyPage({ name, email, text, avartar, option, selected
         <Button className="w-[47%] text-button border border-deepgreen rounded-xl" onClick={() => navigate("/step-2")}>
           Book Another Ticket
         </Button>
-        <Button className="w-[47%] text-white border border-deepgreen rounded-xl bg-button">Download Ticket</Button>
+        <Button className="w-[47%] text-white border border-deepgreen rounded-xl bg-button" onClick={handleDownload}>
+          Download Ticket
+        </Button>
       </div>
     </div>
   );
